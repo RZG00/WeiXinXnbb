@@ -54,7 +54,7 @@ public class XnbbController {
         String content = map.get("Content");
         String message = "success";
 
-        message = Util.initText(toUserName,fromUserName, msgType,content);
+        message = Util.initText("<![CDATA["+toUserName+"]]>","<![CDATA["+fromUserName+"]]>", "<![CDATA["+msgType+"]]>","<![CDATA["+content+"]]>");
 //        if (MessageType.MESSAGE_TEXT.equals(msgType)){
 //            //回复文本信息触发的消息
 //            message = MessageUtil.initText(toUserName,fromUserName, TrayIcon.MessageType.MESSAGE_TEXT,content);

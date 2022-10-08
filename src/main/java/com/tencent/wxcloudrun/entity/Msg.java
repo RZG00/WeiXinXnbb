@@ -34,7 +34,7 @@ public class Msg {
     }
 
     public void setToUserName(String toUserName) {
-        toUserName = toUserName;
+        ToUserName = toUserName;
     }
 
     public String getFromUserName() {

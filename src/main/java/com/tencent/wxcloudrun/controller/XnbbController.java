@@ -21,7 +21,7 @@ public class XnbbController {
     }
 
     @RequestMapping(value = "/api/talk")
-    String talk(@RequestBody Msg msg, HttpServletRequest req) {
+    ApiResponse talk(@RequestBody Msg msg, HttpServletRequest req) {
         System.out.println("ruanzhenguo:"+msg.toString());
         System.out.println(req.toString());
 
@@ -33,7 +33,7 @@ public class XnbbController {
                 "  <Content><![CDATA[你好]]></Content>\n" +
                 "</xml>");
 
-        return remsg.toString();
+        return ApiResponse.ok(remsg.toString()) ;
     }
 
 

@@ -2,7 +2,9 @@ package com.tencent.wxcloudrun.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class Msg {
     @JsonProperty(value = "URL")
     String URL;
@@ -11,7 +13,7 @@ public class Msg {
     @JsonProperty(value = "FromUserName")
     String FromUserName;
     @JsonProperty(value = "CreateTime")
-    String CreateTime;
+    long CreateTime;
     @JsonProperty(value = "MsgType")
     String MsgType;
     @JsonProperty(value = "Content")
@@ -43,11 +45,11 @@ public class Msg {
         FromUserName = fromUserName;
     }
 
-    public String getCreateTime() {
+    public long getCreateTime() {
         return CreateTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(long createTime) {
         CreateTime = createTime;
     }
 

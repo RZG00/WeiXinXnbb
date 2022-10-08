@@ -52,7 +52,7 @@ public class XnbbController {
         String fromUserName = map.get("FromUserName");
         String msgType = map.get("MsgType");
         String content = map.get("Content");
-        String message = null;
+        String message = "success";
 
         message = Util.initText(toUserName,fromUserName, msgType,content);
 //        if (MessageType.MESSAGE_TEXT.equals(msgType)){

@@ -4,6 +4,8 @@ import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.entity.Msg;
 import com.tencent.wxcloudrun.model.Counter;
 import com.tencent.wxcloudrun.util.Util;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,6 +22,11 @@ import java.util.Optional;
 public class XnbbController {
 
     final Logger logger;
+    private static final String TO_USER_NAME = "ToUserName";
+    private static final String FROM_USER_NAME = "FromUserName";
+    private static final String CREATETIME = "CreateTime";
+    private static final String MSGTYPE = "MsgType";
+    private static final String CONTENT = "Content";
 
     public XnbbController() {
         this.logger = LoggerFactory.getLogger(XnbbController.class);
@@ -25,6 +34,7 @@ public class XnbbController {
 
     @RequestMapping(value = "/api/talk")
     ApiResponse talk(@RequestBody Msg msg, HttpServletRequest req) {
+
         System.out.println("ruanzhenguo:"+msg.toString());
         System.out.println(req.toString());
 
@@ -54,20 +64,41 @@ public class XnbbController {
         String content = map.get("Content");
         String message = "success";
 
-        message = Util.initText("<![CDATA["+toUserName+"]]>","<![CDATA["+fromUserName+"]]>", "<![CDATA["+msgType+"]]>","<![CDATA["+content+"]]>");
-//        if (MessageType.MESSAGE_TEXT.equals(msgType)){
-//            //回复文本信息触发的消息
-//            message = MessageUtil.initText(toUserName,fromUserName, TrayIcon.MessageType.MESSAGE_TEXT,content);
-//
-//        }else if (MessageType.MESSAGE_EVENT.equals(msgType)){
-//            //关注时触发的消息
-//            String event = map.get("Event");
-//            if (MessageType.MESSAGE_SUBSCRIBE.equals(event)){
-//                message = MessageUtil.initText(toUserName,fromUserName,MessageType.MESSAGE_TEXT,"欢迎关注evan波的公众号");
-//            }
-//        }
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(TO_USER_NAME,map.get(FROM_USER_NAME));
+        hashMap.put(FROM_USER_NAME,map.get(TO_USER_NAME));
+        hashMap.put(CREATETIME,String.valueOf(System.currentTimeMillis()));
+        switch (msgType) {
+            case "text" :
+                try {
+                    hashMap.put(MSGTYPE,"text");
+                    hashMap.put(CONTENT,content);
+                    message = Util.mapToXml(hashMap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                break;
+        }
+
+
+
         return message;
+//        return "";
     }
 
+
+    @GetMapping("/api/chat")
+    public String checkLink(@RequestParam String signature,
+                            @RequestParam String timestamp,
+                            @RequestParam String nonce,
+                            @RequestParam String echostr
+    ){
+        return echostr;
+
+    }
 
 }

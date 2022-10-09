@@ -3,12 +3,14 @@ package com.tencent.wxcloudrun.util;
 import com.tencent.wxcloudrun.entity.Msg;
 import com.thoughtworks.xstream.XStream;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +63,30 @@ public class Util {
         textMessage.setCreateTime(new Date().getTime());
         textMessage.setContent(content);
         return Util.textMessageToXml(textMessage);
+    }
+
+    public static String mapToXml(Map<String, String> map) throws IOException, DocumentException {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<xml>");
+        for (String key : map.keySet()) {
+            String value = "<![CDATA[" + map.get(key) + "]]>";
+            if ("MediaId".equals(key)) {
+                switch (map.get("MsgType")) {
+                    case "image":
+                        sb.append("<Image><" + key + ">" + value + "</" + key + "></Image>");
+                        break;
+                    case "voice":
+                        sb.append("<Voice><" + key + ">" + value + "</" + key + "></Voice>");
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                sb.append("<" + key + ">" + value + "</" + key + ">");
+            }
+        }
+        sb.append("</xml>");
+        return sb.toString();
     }
 
 }

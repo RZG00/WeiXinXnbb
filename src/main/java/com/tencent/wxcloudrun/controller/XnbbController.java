@@ -54,7 +54,7 @@ public class XnbbController {
      * @param request
      * @return
      */
-    @PostMapping("/api/chat")
+    @RequestMapping("/api/chat")
     public String replyMessage(HttpServletRequest request){
 
         Map<String,String> map = Util.xmlToMap(request);
@@ -91,14 +91,14 @@ public class XnbbController {
     }
 
 
-    @GetMapping("/api/chat")
-    public String checkLink(@RequestParam String signature,
-                            @RequestParam String timestamp,
-                            @RequestParam String nonce,
-                            @RequestParam String echostr
-    ){
-        return echostr;
-
-    }
+//    @GetMapping("/api/chat")
+//    public String checkLink(@RequestParam String signature,
+//                            @RequestParam String timestamp,
+//                            @RequestParam String nonce,
+//                            @RequestParam String echostr
+//    ){
+//        return echostr;
+//
+//    }
 
 }

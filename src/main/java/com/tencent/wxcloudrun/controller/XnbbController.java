@@ -85,7 +85,7 @@ public class XnbbController {
         }
 
 
-
+        System.out.println("返回消息："+message);
         return message;
 //        return "";
     }
